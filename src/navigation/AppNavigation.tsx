@@ -10,7 +10,7 @@ import AlbumDetailsScreen from './../screens/AlbumDetailsScreen';
 import DashboardScreen from './../screens/DashboardScreen';
 
 export type RootStackParamList = {
-  Dashboard: undefined; //undefined
+  Dashboard: undefined;
   Details: {album: Album};
 };
 

@@ -10,10 +10,15 @@ import AlbumCell from '../../components/AlbumCell';
 import ErrorScreen from '../../components/ErrorScreen';
 import Loading from '../../components/Loader';
 import {useQueryRequest} from '../../hooks/useQueryRequest';
+import {albumSelectors} from '../../store/redux/album/reducer';
+import {getAlbumListAction} from '../../store/redux/album/thunk';
+import {useAppDispatch, useAppSelector} from '../../store/redux/configureStore';
 import {fetchAlbums} from './../../services/api';
 import {Album, AlbumRequest, AlbumResponse} from './../../services/type';
 
 const DashboardScreen: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const albumData = useAppSelector(albumSelectors.selectAlbum);
   const [orientation, setOrientation] = useState<'portrait' | 'landscape'>(
     Dimensions.get('window').width > Dimensions.get('window').height
       ? 'landscape'
@@ -29,6 +34,20 @@ const DashboardScreen: React.FC = () => {
     {term: 'jack johnson', limit: 100},
     {staleTime: 300000},
   );
+
+  const getAlbumList = () => {
+    dispatch(getAlbumListAction({term: 'jack johnson', limit: 100}))
+      .then(response => {
+        console.log('Album list fetched', response);
+      })
+      .catch(error => {
+        console.error('Error fetching album list', error);
+      });
+  };
+
+  useEffect(() => {
+    getAlbumList();
+  }, []);
 
   useEffect(() => {
     const handleOrientationChange = () => {
@@ -61,7 +80,7 @@ const DashboardScreen: React.FC = () => {
     return <ErrorScreen error={error} onRetry={refetch} />;
   }
 
-  console.log('DashboardScreen', {data, isLoading, isError, error});
+  console.log('DashboardScreen', {data, isLoading, isError, error, albumData});
   return (
     <View style={styles.container}>
       <FlatList

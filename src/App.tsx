@@ -3,7 +3,9 @@ import React, {Suspense, lazy} from 'react';
 import {StatusBar, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Provider} from 'react-redux';
 import Loading from './components/Loader';
+import store from './store/redux/configureStore';
 const Main = lazy(() => import('./main'));
 
 function App(): React.JSX.Element {
@@ -15,17 +17,19 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<Loading />}>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={backgroundStyle.backgroundColor}
-        />
-        <SafeAreaProvider>
-          <Main backgroundStyle={backgroundStyle} />
-        </SafeAreaProvider>
-      </Suspense>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={<Loading />}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={backgroundStyle.backgroundColor}
+          />
+          <SafeAreaProvider>
+            <Main backgroundStyle={backgroundStyle} />
+          </SafeAreaProvider>
+        </Suspense>
+      </QueryClientProvider>
+    </Provider>
   );
 }
 
