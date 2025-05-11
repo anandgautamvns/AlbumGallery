@@ -80,8 +80,10 @@ android {
     namespace "com.albumgallery"
     defaultConfig {
         applicationId "com.albumgallery"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion rootProject.ext.minSdkVersion // 33 Android 13.0
+        targetSdkVersion rootProject.ext.targetSdkVersion // 33 Android 13.0
+        // minSdkVersion 33 // Android 13.0
+        // targetSdkVersion 33
         versionCode 1
         versionName "1.0"
     }
