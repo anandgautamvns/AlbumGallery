@@ -15,6 +15,8 @@ const EmptyScreen: React.FC<EmptyScreenProps> = ({
   );
 };
 
+export default memo(EmptyScreen);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -22,5 +24,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-export default memo(EmptyScreen);

@@ -25,54 +25,59 @@ const AlbumDetailsScreen: React.FC<Props> = ({route}) => {
     details?.artworkUrl100 && details?.artworkUrl100.startsWith('http')
       ? details.artworkUrl100
       : 'fallback_image_url';
-return (
-  <ScrollView contentContainerStyle={styles.container}>
-    <Image source={{uri: validUri}} style={styles.image} resizeMode="cover" />
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image
+        source={{uri: validUri}}
+        style={styles.image}
+        resizeMode="cover"
+        testID="album-image"
+      />
 
-    <Text style={styles.title}>{details?.trackName || ''}</Text>
-    <Text style={styles.subtitle}>{details?.collectionName || ''}</Text>
+      <Text style={styles.title}>{details?.trackName || ''}</Text>
+      <Text style={styles.subtitle}>{details?.collectionName || ''}</Text>
 
-    <View style={styles.infoRow}>
-      <Text style={styles.infoLabel}>Director/Creators:</Text>
-      <Text style={styles.infoValue}>{details?.artistName || ''}</Text>
-    </View>
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Director/Creators:</Text>
+        <Text style={styles.infoValue}>{details?.artistName || ''}</Text>
+      </View>
 
-    <View style={styles.infoRow}>
-      <Text style={styles.infoLabel}>Genre:</Text>
-      <Text style={styles.infoValue}>{details?.primaryGenreName || ''}</Text>
-    </View>
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Genre:</Text>
+        <Text style={styles.infoValue}>{details?.primaryGenreName || ''}</Text>
+      </View>
 
-    <View style={styles.infoRow}>
-      <Text style={styles.infoLabel}>Release Date:</Text>
-      <Text style={styles.infoValue}>
-        {new Date(details?.releaseDate).toDateString()}
-      </Text>
-    </View>
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Release Date:</Text>
+        <Text style={styles.infoValue}>
+          {new Date(details?.releaseDate).toDateString()}
+        </Text>
+      </View>
 
-    <View style={styles.infoRow}>
-      <Text style={styles.infoLabel}>Price:</Text>
-      <Text style={styles.infoValue}>
-        ${details?.trackPrice || 0} (HD: ${details?.trackHdPrice || 0})
-      </Text>
-    </View>
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Price:</Text>
+        <Text style={styles.infoValue}>
+          ${details?.trackPrice || 0} (HD: ${details?.trackHdPrice || 0})
+        </Text>
+      </View>
 
-    <View style={styles.infoRow}>
-      <Text style={styles.infoLabel}>Rating:</Text>
-      <Text style={styles.infoValue}>
-        {details?.contentAdvisoryRating || ''}
-      </Text>
-    </View>
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Rating:</Text>
+        <Text style={styles.infoValue}>
+          {details?.contentAdvisoryRating || ''}
+        </Text>
+      </View>
 
-    <Text style={styles.sectionHeader}>About this Movie</Text>
-    <Text style={styles.description}>{details?.longDescription || ''}</Text>
+      <Text style={styles.sectionHeader}>About this Movie</Text>
+      <Text style={styles.description}>{details?.longDescription || ''}</Text>
 
-    <TouchableOpacity
-      style={styles.button}
-      onPress={() => Linking.openURL(details?.trackViewUrl || '')}>
-      <Text style={styles.buttonText}>View</Text>
-    </TouchableOpacity>
-  </ScrollView>
-);
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => Linking.openURL(details?.trackViewUrl || '')}>
+        <Text style={styles.buttonText}>View</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
 };
 
 export default memo(AlbumDetailsScreen);

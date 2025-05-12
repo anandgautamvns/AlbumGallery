@@ -4,11 +4,17 @@ import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 const Loading: React.FC = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#0000ff" />
+      <ActivityIndicator
+        testID="activity-indicator"
+        size="large"
+        color="#0000ff"
+      />
       <Text>Loading...</Text>
     </View>
   );
 };
+
+export default memo(Loading);
 
 const styles = StyleSheet.create({
   container: {
@@ -17,5 +23,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-export default memo(Loading);

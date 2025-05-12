@@ -24,8 +24,9 @@ const AlbumCell: React.FC<Props> = ({album}) => {
     imageUri && imageUri.startsWith('http') ? imageUri : 'fallback_image_url';
 
   return (
-    <Card onPress={handlePress}>
+    <Card onPress={handlePress} testID="album-card">
       <Artwork
+        testID="album-artwork"
         key={isPortrait ? 'portrait' : 'landscape'}
         source={{uri: validUri} as ImageSourcePropType}
       />

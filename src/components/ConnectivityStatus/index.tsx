@@ -1,16 +1,14 @@
 import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
-export default function ConnectivityStatus() {
+function ConnectivityStatus() {
   const [connection, setConnection] = useState<NetInfoState | null>(null);
 
   useEffect(() => {
-    // Subscribe
     const unsubscribe = NetInfo.addEventListener(state => {
       setConnection(state);
     });
-    // Cleanup
     return () => unsubscribe();
   }, []);
 
@@ -19,7 +17,7 @@ export default function ConnectivityStatus() {
   }
 
   return (
-    <View style={{padding: 16}}>
+    <View style={styles.container}>
       <Text>Type: {connection.type}</Text>
       <Text>Connected: {connection.isConnected ? 'Yes' : 'No'}</Text>
       <Text>
@@ -28,3 +26,11 @@ export default function ConnectivityStatus() {
     </View>
   );
 }
+
+export default ConnectivityStatus;
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+  },
+});

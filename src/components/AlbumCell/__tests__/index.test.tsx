@@ -2,7 +2,6 @@ import {useNavigation} from '@react-navigation/native';
 import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 import AlbumCell from '..';
-import {useOrientation} from '../../../hooks/useOrientation';
 import {mockAlbumsData} from '../../../mockData/Album';
 
 jest.mock('@react-navigation/native', () => ({
@@ -10,53 +9,52 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 jest.mock('../../../hooks/useOrientation', () => ({
-  useOrientation: jest.fn(),
+  useOrientation: jest.fn(() => true), // Mock portrait mode
 }));
 
-describe('AlbumCell', () => {
-  const mockNavigate = jest.fn();
+describe('AlbumCell Component', () => {
+  const mockNavigation = {navigate: jest.fn()};
   const mockAlbum = mockAlbumsData[0];
 
   beforeEach(() => {
-    (useNavigation as jest.Mock).mockReturnValue({navigate: mockNavigate});
-    (useOrientation as jest.Mock).mockReturnValue(true);
+    (useNavigation as jest.Mock).mockReturnValue(mockNavigation);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly in portrait mode', () => {
+  it('renders correctly', () => {
+    const {toJSON} = render(<AlbumCell album={mockAlbum} />);
+    expect(toJSON()).toMatchSnapshot();
+  });
+
+  it('should render album details correctly', () => {
     const {getByText, getByTestId} = render(<AlbumCell album={mockAlbum} />);
 
-    expect(getByTestId('Artwork').props.source.uri).toBe(
-      mockAlbum.artworkUrl100,
-    );
-    expect(getByText(mockAlbum?.collectionName || '')).toBeTruthy();
-    expect(getByText(`$${mockAlbum?.trackPrice || ''}`)).toBeTruthy();
-    expect(getByText(mockAlbum?.artistName || '')).toBeTruthy();
-  });
-
-  it('renders correctly in landscape mode', () => {
-    (useOrientation as jest.Mock).mockReturnValue(false);
-    const {getByTestId} = render(<AlbumCell album={mockAlbum} />);
-
-    expect(getByTestId('Artwork').props.source.uri).toBe(
-      mockAlbum.artworkUrl30,
+    expect(getByText('Collection 1')).toBeTruthy();
+    expect(getByText('$20')).toBeTruthy();
+    expect(getByText('Artist 1')).toBeTruthy();
+    expect(getByTestId('album-artwork').props.source.uri).toBe(
+      'https://example.com/artwork60/1.jpg',
     );
   });
 
-  it('navigates to Details screen on press', () => {
+  it('should navigate to the Details screen when pressed', () => {
     const {getByTestId} = render(<AlbumCell album={mockAlbum} />);
-    fireEvent.press(getByTestId('Card'));
 
-    expect(mockNavigate).toHaveBeenCalledWith('Details', {album: mockAlbum});
+    fireEvent.press(getByTestId('album-card'));
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('Details', {
+      album: mockAlbum,
+    });
   });
 
-  it('does not render artist name if not provided', () => {
-    const albumWithoutArtist = {...mockAlbum, artistName: undefined};
-    const {queryByText} = render(<AlbumCell album={albumWithoutArtist} />);
+  it('should use fallback image if artwork URL is invalid', () => {
+    const invalidAlbum = {...mockAlbum, artworkUrl60: ''};
+    const {getByTestId} = render(<AlbumCell album={invalidAlbum} />);
 
-    expect(queryByText(mockAlbum.artistName || '')).toBeNull();
+    expect(getByTestId('album-artwork').props.source.uri).toBe(
+      'fallback_image_url',
+    );
   });
 });

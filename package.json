@@ -24,6 +24,7 @@
     "@react-navigation/stack": "^7.3.1",
     "@reduxjs/toolkit": "^2.8.1",
     "@tanstack/react-query": "^5.75.7",
+    "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.2.0",
     "@types/lodash": "^4.17.16",
     "@types/redux-logger": "^3.0.13",
@@ -63,12 +64,6 @@
     "prettier": "2.8.8",
     "react-test-renderer": "19.0.0",
     "typescript": "5.0.4"
-  },
-  "jest": {
-    "preset": "react-native",
-    "setupFilesAfterEnv": [
-      "@testing-library/jest-native/extend-expect"
-    ]
   },
   "engines": {
     "node": ">=18"
