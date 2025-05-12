@@ -5,6 +5,7 @@ import {Album} from './../../services/type';
 
 import {ImageSourcePropType} from 'react-native';
 import styled from 'styled-components/native';
+import {useOrientation} from '../../hooks/useOrientation';
 
 interface Props {
   album: Album;
@@ -12,14 +13,22 @@ interface Props {
 
 const AlbumCell: React.FC<Props> = ({album}) => {
   const navigation = useNavigation<NavProp<'Details'>>();
+  const isPortrait = useOrientation();
 
   const handlePress = useCallback(() => {
     navigation.navigate('Details', {album});
   }, [navigation, album]);
 
+  const imageUri = isPortrait ? album.artworkUrl60 : album.artworkUrl100;
+  const validUri =
+    imageUri && imageUri.startsWith('http') ? imageUri : 'fallback_image_url';
+
   return (
     <Card onPress={handlePress}>
-      <Artwork source={{uri: album.artworkUrl100} as ImageSourcePropType} />
+      <Artwork
+        key={isPortrait ? 'portrait' : 'landscape'}
+        source={{uri: validUri} as ImageSourcePropType}
+      />
       <Row>
         <Title numberOfLines={1}>
           {album.collectionName || album.trackName}
@@ -51,6 +60,7 @@ const Artwork = styled.Image`
   aspect-ratio: 1;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  resize-mode: cover;
 `;
 
 const Row = styled.View`

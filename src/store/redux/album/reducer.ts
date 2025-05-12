@@ -1,7 +1,7 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {AppState} from '../configureStore';
-import {getAlbumListAction} from './thunk';
-import {AlbumState, GetAlbumDetail} from './type';
+import { createSlice } from '@reduxjs/toolkit';
+import { AppState } from '../configureStore';
+import { getAlbumListAction } from './thunk';
+import { AlbumState, GetAlbumDetail, GetAlbumDetailList } from './type';
 
 const initialState: AlbumState = {
   data: null,
@@ -20,6 +20,14 @@ const albumSlice = createSlice({
         ...state,
         isLoading: false,
         albumInfo: action.payload,
+      };
+    },
+    getAlbumDetailList(state, action: GetAlbumDetailList) {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: action.payload,
       };
     },
   },

@@ -8,10 +8,15 @@ const isDev = __DEV__; // React Native global for development mode
 export const store = configureStore({
   reducer: reducers,
   devTools: isDev,
-  middleware: getDefaultMiddleware =>
-    process.env.NODE_ENV === 'development' || isDev
-      ? getDefaultMiddleware().concat(logger)
-      : getDefaultMiddleware(),
+  middleware: getDefaultMiddleware => {
+    const base = getDefaultMiddleware({
+      serializableCheck: true,
+    });
+    if (isDev) {
+      base.push(logger);
+    }
+    return base;
+  },
 });
 
 // ----- Types -----

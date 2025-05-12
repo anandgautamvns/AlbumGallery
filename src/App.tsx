@@ -8,7 +8,7 @@ import Loading from './components/Loader';
 import store from './store/redux/configureStore';
 const Main = lazy(() => import('./main'));
 
-function App(): React.JSX.Element {
+const App: React.FC = () => {
   const queryClient = new QueryClient();
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -31,6 +31,6 @@ function App(): React.JSX.Element {
       </QueryClientProvider>
     </Provider>
   );
-}
+};
 
 export default App;

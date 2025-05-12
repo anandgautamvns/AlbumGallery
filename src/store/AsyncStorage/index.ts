@@ -1,17 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Album} from '../../services/type';
+import {AlbumResponse} from '../../services/type';
 
 const ALBUMS_KEY = 'albums_list';
 
-export const storeAlbums = async (list: Album[]) => {
+export const storeAlbums = async (list: AlbumResponse) => {
   try {
     await AsyncStorage.setItem(ALBUMS_KEY, JSON.stringify(list));
   } catch {
-    /* ignore */
+    await AsyncStorage.setItem(ALBUMS_KEY, JSON.stringify(null));
   }
 };
 
-export const getStoredAlbums = async (): Promise<Album[] | null> => {
+export const getStoredAlbums = async (): Promise<AlbumResponse | null> => {
   try {
     const raw = await AsyncStorage.getItem(ALBUMS_KEY);
     return raw ? JSON.parse(raw) : null;

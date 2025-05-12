@@ -29,12 +29,12 @@ const AppNavigation = () => (
         name="Dashboard"
         component={DashboardScreen}
         options={{
-          // eslint-disable-next-line react/no-unstable-nested-components
           headerTitle: () => (
             <Text style={{color: branding.primaryColor, fontSize: 20}}>
               Dashboard
             </Text>
           ),
+          title: 'Dashboard',
           headerTintColor: branding.primaryColor,
         }}
       />
